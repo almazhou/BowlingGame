@@ -1,50 +1,36 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Game {
-    ScoreCal scoreCal;
-    Round rounds[]=new Round[11];
+    private ScoreCalculator scoreCalculator;
+    private Round rounds[]=new Round[11];
     Game(){
-        scoreCal=new ScoreCal();
+        scoreCalculator =new ScoreCalculator();
         for (int i=0;i<11;i++){
             rounds[i]=new Round();
         }
-        scoreCal.saveRound(rounds);
+        scoreCalculator.saveRound(rounds);
     }
     public static void main(String argv[]){
         Game game=new Game();
+
         game.start();
     }
 
     private void start() {
-        for(int i=0;i<Round.FULLNUM;i++){
-            playHits(i);
-            playHits(i);
+        int k=0;
+        List<Integer> scoreList=new ArrayList<Integer>();
+        scoreList= Arrays.asList(7, 2, 6, 2, 9, 1, 10, 0, 1, 4, 5, 5, 4, 5, 6, 3, 6, 4, 10, 0, 5, 0);
+        for(int i=0;i<scoreList.size();i+=2){
+            rounds[k++].receiveScore(scoreList.get(i),scoreList.get(i+1));
         }
-        extraHit();
         showScore();
     }
 
     private void showScore() {
         for(int i=0;i<rounds.length;i++){
-            System.out.println("("+rounds[i].getFirstHit()+","+rounds[i].getSecondHit()+")"+scoreCal.getTotalScore(i+1));
+            System.out.println("(" + rounds[i].getFirstHit() + "," + rounds[i].getSecondHit() + ")" + scoreCalculator.getTotalScore(i + 1));
         }
     }
-
-    private void playHits(int roundNum) {
-        rounds[roundNum].roll();
-    }
-
-    private void extraHit() {
-        if(rounds[Round.FULLNUM-2].isSpare())
-        {
-            playHits(Round.FULLNUM-1);
-        }else if(rounds[Round.FULLNUM-2].isStrike()){
-            playHits(Round.FULLNUM-1);
-            playHits(Round.FULLNUM-1);
-        }
-    }
-
-    private int roll() {
-        return (int)Math.round(10*Math.random());
-    }
-
-
 }

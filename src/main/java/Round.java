@@ -1,16 +1,11 @@
 public class Round {
     public static final int FULLNUM = 10;
-    private int count=0;
     private int firstHit=0;
     private int secondHit=0;
 
-    public void hit(int pinNum) {
-        if(this.count==0){
-            firstHit=pinNum;
-            count++;
-        }else {
-            secondHit=pinNum;
-        }
+    public void receiveScore(int firstHit, int secondHit) {
+        this.firstHit=firstHit;
+        this.secondHit=secondHit;
     }
 
     public int getScore() {
@@ -35,10 +30,5 @@ public class Round {
 
     public int getSecondHit() {
         return secondHit;
-    }
-
-    public void roll() {
-         int hitNum=(int)Math.round((FULLNUM-firstHit)*Math.random());
-         hit(hitNum);
     }
 }
